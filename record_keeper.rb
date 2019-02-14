@@ -1,8 +1,10 @@
-require_relative 'db_connection'
 require 'active_support/inflector'
-
+require_relative 'db_connection'
+require_relative 'associations'
 
 class RecrodKeeper
+  extend Associations
+
   def self.columns
     return @columns if @columns
     columns = DBConnection.execute2(<<-SQL).first
@@ -116,7 +118,7 @@ class RecrodKeeper
     self.id ? self.update : self.insert
   end
 
-  def where(params)
+  def self.where(params)
     insert_line = params.keys.map{|param| "#{param}= ?"}.join("AND ")
 
     result = DBConnection.execute(<<-SQL,*params.values)
@@ -128,6 +130,7 @@ class RecrodKeeper
         #{insert_line}
     SQL
 
-    parse_all(result)
+    self.parse_all(result)
   end
+
 end
