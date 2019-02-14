@@ -115,4 +115,19 @@ class RecrodKeeper
   def save
     self.id ? self.update : self.insert
   end
+
+  def where(params)
+    insert_line = params.keys.map{|param| "#{param}= ?"}.join("AND ")
+
+    result = DBConnection.execute(<<-SQL,*params.values)
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      WHERE
+        #{insert_line}
+    SQL
+
+    parse_all(result)
+  end
 end
