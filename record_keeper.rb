@@ -2,7 +2,7 @@ require 'active_support/inflector'
 require_relative 'db_connection'
 require_relative 'associations'
 
-class RecrodKeeper
+class RecordKeeper
   extend Associations
 
   def self.columns
