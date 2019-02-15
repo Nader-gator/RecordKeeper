@@ -121,7 +121,7 @@ module Associations
         JOIN
           #{source_table}
         ON
-          #{through_table}.#{source_foreign_key} = #{source_table}.#{source_primary_key}
+          #{through_table}.#{source_primary_key} = #{source_table}.#{foreign_key}
         WHERE 
           #{through_table}.#{through_primary_key} = ?
       SQL
